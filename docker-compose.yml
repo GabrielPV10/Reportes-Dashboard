@@ -1,0 +1,40 @@
+services:
+  # Servicio de la Base de Datos (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: 'reporte_db'
+      MYSQL_ROOT_PASSWORD: '12345678'
+    ports:
+      - "3310:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # Servicio de PHP
+  php:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    container_name: php_app
+    working_dir: /var/www/html/src
+    volumes:
+      - ./src:/var/www/html/src      # <-- Monta tu código
+      - /var/www/html/src/vendor # <-- Protege la carpeta vendor AQUI
+
+  # Servicio del Servidor Web (Nginx)
+  web:
+    image: nginx:latest
+    container_name: nginx_web
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html/src
+      # La línea de vendor NO va aquí
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+volumes:
+  db_data:

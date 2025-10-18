@@ -1,0 +1,13 @@
+# Ignorar la carpeta de la base de datos de Docker
+db_data/
+
+# Ignorar la carpeta de dependencias de Composer (dentro de src)
+src/vendor/
+
+# Ignorar archivos de configuración de tu editor
+.vscode/
+.idea/
+
+# Ignorar archivos de sistema operativo
+.DS_Store
+Thumbs.db
