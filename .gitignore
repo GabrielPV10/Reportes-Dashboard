@@ -1,10 +1,10 @@
-# Ignorar la carpeta de dependencias de Composer
 /vendor/
+db_data/
 
-# Ignorar archivos de configuración de tu editor (opcional)
+src/vendor/
+
 .vscode/
 .idea/
 
-# Ignorar archivos de sistema operativo
 .DS_Store
 Thumbs.db
