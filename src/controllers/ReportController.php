@@ -1,7 +1,10 @@
-<?php //Ya quedo 3
+<?php
+// Ubicación: src/controllers/ReportController.php
 header('Content-Type: application/json');
 session_start();
-require_once 'conectar.php';
+
+// CAMBIO: Salimos de "controllers" y entramos a "config"
+require_once '../config/database.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     echo json_encode(['error' => 'No autorizado']);

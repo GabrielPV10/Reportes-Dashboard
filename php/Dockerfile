@@ -22,7 +22,7 @@ RUN docker-php-ext-install mysqli gd zip
 WORKDIR /var/www/html/src
 
 # Copiar los archivos de dependencias de Composer
-COPY src/composer.json src/composer.lock ./
+COPY src/composer.json ./
 
 # Instalar las dependencias de Composer
 RUN composer install --no-scripts --no-autoloader

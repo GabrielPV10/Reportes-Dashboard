@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro de Usuario - Dashboard</title>
+    <title>Registro de Usuario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-4">Crear Cuenta</h3>
-                    <form action="procesar_registro.php" method="POST">
+                    <form action="../../controllers/RegisterController.php" method="POST">
                         <div class="mb-3">
                             <label for="nombre_completo" class="form-label">Nombre Completo</label>
                             <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" required>
@@ -41,8 +41,8 @@
                             <button type="submit" class="btn btn-success">Registrarme</button>
                         </div>
                     </form>
-                     <div class="text-center mt-3">
-                        <a href="index.php">¿Ya tienes cuenta? Inicia sesión</a>
+                    <div class="text-center mt-3">
+                         <a href="../../public/index.php">¿Ya tienes cuenta? Inicia sesión</a>
                     </div>
                 </div>
             </div>

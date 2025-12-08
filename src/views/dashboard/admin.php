@@ -1,11 +1,7 @@
-<?php  //Ya quedo 4
-session_start();
-if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 1) {
-    header('Location: index.php');
-    exit();
-}
+<?php 
+require_once '../../includes/session.php';
+verificarSesion(1); // 1 = Requiere ser Admin
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,7 +23,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 1) {
           </span>
         </li>
         <li class="nav-item">
-          <a class="btn btn-danger" href="logout.php">Cerrar Sesión <i class="bi bi-box-arrow-right"></i></a>
+          <a class="btn btn-danger" href="../../includes/logout.php">Cerrar Sesión <i class="bi bi-box-arrow-right"></i></a>
         </li>
       </ul>
   </div>
@@ -41,7 +37,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 1) {
         </div>
         <div class="card-body">
             <p>Sube tu archivo de Excel (.xlsx) para actualizar los datos del dashboard.</p>
-            <form action="procesar_excel.php" method="POST" enctype="multipart/form-data">
+            <form action="../../controllers/ImportController.php" method="POST" enctype="multipart/form-data">
                 <div class="input-group">
                     <input type="file" class="form-control" name="archivo_excel" id="archivo_excel" accept=".xlsx, .xls" required>
                     <button class="btn btn-primary" type="submit"><i class="bi bi-upload"></i> Cargar y Procesar</button>
@@ -71,12 +67,12 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 1) {
             <canvas id="graficoTendencia"></canvas>
         </div>
     </div>
-    </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- Cargar los KPIs de las tarjetas ---
-        fetch('get_kpi_data.php')
+        // --- RUTA CORREGIDA: Fetch KPIs ---
+        fetch('../../controllers/KpiController.php')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('kpi-ventas').textContent = data.total_ventas;
@@ -85,13 +81,13 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 1) {
             })
             .catch(error => console.error('Error al cargar los KPIs:', error));
         
-        // --- Cargar y dibujar el gráfico de tendencia ---
+        // --- RUTA CORREGIDA: Fetch Gráfico ---
         const ctxTendencia = document.getElementById('graficoTendencia').getContext('2d');
-        fetch('get_admin_chart_data.php')
+        fetch('../../controllers/AdminChartController.php')
             .then(response => response.json())
             .then(datos => {
                 new Chart(ctxTendencia, {
-                    type: 'line', // Gráfico de línea para mostrar tendencias
+                    type: 'line', 
                     data: {
                         labels: datos.labels,
                         datasets: [{

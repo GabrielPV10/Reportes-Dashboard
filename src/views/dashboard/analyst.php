@@ -1,9 +1,6 @@
-<?php //Ya quedo 2
-session_start(); 
-if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 2) {
-    header('Location: index.php');
-    exit();
-}
+<?php 
+require_once '../../includes/session.php';
+verificarSesion(2); // 2 = Requiere ser Analista
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +16,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 2) {
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Panel de Analista</a>
-    <ul class="navbar-nav ms-auto"><li class="nav-item"><a class="btn btn-danger" href="logout.php">Cerrar Sesión</a></li></ul>
+    <ul class="navbar-nav ms-auto"><li class="nav-item"><a class="btn btn-danger" href="../../includes/logout.php">Cerrar Sesión</a></li></ul>
   </div>
 </nav>
 
@@ -40,7 +37,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 2) {
                             <option value="ventas_semanales">Ventas Semanales</option>
                             <option value="ventas_mensuales">Ventas Mensuales</option>
                         </optgroup>
-                        <optgroup label="Ranking de Top 5">
+                         <optgroup label="Ranking de Top 5">
                             <option value="top_clientes_ventas">Top Clientes (por Ventas)</option>
                             <option value="top_productos_ventas">Top Productos (por Ventas)</option>
                             <option value="top_productos_unidades">Top Productos (por Unidades)</option>
@@ -74,7 +71,8 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 2) {
         const reporteSeleccionado = filtroReporte.value;
         const tipoGrafico = filtroGrafico.value;
 
-        fetch(`api.php?reporte=${reporteSeleccionado}`)
+        // RUTA CORREGIDA: Fetch a ReportController
+        fetch(`../../controllers/ReportController.php?reporte=${reporteSeleccionado}`)
             .then(response => response.json())
             .then(datos => {
                 if (miGrafico) { miGrafico.destroy(); }
@@ -98,17 +96,13 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol_id'] != 2) {
                                     label: function(context) {
                                         let label = context.label || '';
                                         if (label) { label += ': '; }
-                                        
-                                        // --- INICIO DE LA SOLUCIÓN ---
                                         const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                        // Verificamos que el total no sea cero para evitar NaN
                                         if ((tipoGrafico === 'pie' || tipoGrafico === 'doughnut') && total > 0) {
                                             const porcentaje = (context.raw / total * 100).toFixed(2) + '%';
                                             label += `${context.formattedValue} (${porcentaje})`;
                                         } else {
                                             label += context.formattedValue;
                                         }
-                                        // --- FIN DE LA SOLUCIÓN ---
                                         return label;
                                     }
                                 }
